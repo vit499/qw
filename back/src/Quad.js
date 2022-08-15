@@ -21,7 +21,9 @@ const A_RND = 1;
 //let d, x1, x2;
 
 let cntAnswer = 0;
+let lastAnswer = 2;
 const arrQw = [];
+let currentQuad = {};
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -29,6 +31,7 @@ function getRandomInt(max) {
 
 class Quad {
   Discr(a, b, c) {
+    // discriminant
     // D = b**2 - 4ac
     // const d = b ** 2 - 4 * a * c;
     const d = Math.pow(b, 2) - 4 * a * c;
@@ -72,26 +75,74 @@ class Quad {
     }
   }
 
-  checkAns(req, res) {
-    cntAnswer++;
-    mlog.setCntAns(cntAnswer);
-    mlog.log("ok");
-    return res.send("+++ok+++");
-  }
-  sendQuad(req, res) {
+  setCurQuad() {
     const len = arrQw.length;
-    // console.log(`len = ${len}`);
-
     const ind = getRandomInt(len);
     const oneQuad = arrQw.find((p) => p.id === ind);
-    const data = {
+    currentQuad = {
       oneQuad,
       cntAnswer,
+      lastAnswer,
     };
-    //console.log("data:", JSON.stringify(data, null, 2));
     mlog.log(`ind=${ind}`);
-    return res.json(data);
   }
+
+  checkAns(req, res) {
+    console.log(`ans ${JSON.stringify(req.body, null, 2)}`);
+    const id = req.body.id;
+    const ad = req.body.d;
+    const ax1 = req.body.x1;
+    const ax2 = req.body.x2;
+    const r = arrQw.find((p) => p.id === id);
+    lastAnswer = 0;
+    if (r !== null) {
+      if (r.d === ad && r.x1 === ax1 && r.x2 === ax2) {
+        cntAnswer++;
+        lastAnswer = 1;
+        mlog.log("ok");
+      }
+    }
+    mlog.setCntAns(cntAnswer);
+
+    //this.setCurQuad();
+    const len = arrQw.length;
+    const ind = getRandomInt(len);
+    const oneQuad = arrQw.find((p) => p.id === ind);
+    currentQuad = {
+      oneQuad,
+      cntAnswer,
+      lastAnswer,
+    };
+    return res.json(currentQuad);
+  }
+
+  sendQuad(req, res) {
+    // this.setCurQuad();
+    const len = arrQw.length;
+    const ind = getRandomInt(len);
+    const oneQuad = arrQw.find((p) => p.id === ind);
+    currentQuad = {
+      oneQuad,
+      cntAnswer,
+      lastAnswer,
+    };
+    return res.json(currentQuad);
+  }
+  // nextAbc() {
+  //   const len = arrQw.length;
+  //   // console.log(`len = ${len}`);
+
+  //   const ind = getRandomInt(len);
+  //   const oneQuad = arrQw.find((p) => p.id === ind);
+  //   const data = {
+  //     oneQuad,
+  //     cntAnswer,
+  //     lastAnswer,
+  //   };
+  //   //console.log("data:", JSON.stringify(data, null, 2));
+  //   mlog.log(`ind=${ind}`);
+  //   return data;
+  // }
   start() {
     cntAnswer = mlog.getCntAns();
     this.fillQuads();

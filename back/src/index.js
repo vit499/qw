@@ -8,8 +8,27 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/quad/a", quad.checkAns);
+app.post("/api/quad", quad.checkAns);
 app.use("/api/quad", quad.sendQuad);
+
+// const urlencodedParser = express.urlencoded({ extended: false });
+// app.set("view engine", "pug");
+
+// app.get("/", (req, res) => {
+//   //res.sendFile(__dirname + "/view/index.html");
+//   const data = quad.nextAbc();
+//   res.render("quest", {
+//     a: data.oneQuad.a,
+//     b: data.oneQuad.b,
+//     c: data.oneQuad.c,
+//     cnt: data.cntAnswer,
+//   });
+// });
+// app.post("/", urlencodedParser, (req, res) => {
+//   if (!req.body) return res.sendStatus(400);
+//   console.log(req.body);
+//   res.sendFile(__dirname + "/view/ans.html");
+// });
 
 const start = () => {
   app.listen(API_PORT, () => {

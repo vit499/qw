@@ -11,6 +11,8 @@ class QuadStore {
     this._d = 0;
     this._x1 = 0;
     this._x2 = 0;
+    this._cnt = 0;
+    this._lastAns = 2;
     this._date = new Date().toISOString();
     makeAutoObservable(this, {});
   }
@@ -27,6 +29,9 @@ class QuadStore {
   }
   setX2(d) {
     this._x2 = d;
+  }
+  setCnt(cnt) {
+    this._cnt = cnt;
   }
 
   get id() {
@@ -53,6 +58,12 @@ class QuadStore {
   get load() {
     return this._load;
   }
+  get cnt() {
+    return this._cnt;
+  }
+  get lastAns() {
+    return this._lastAns;
+  }
 
   fillOneQuad(d) {
     this._id = d.id;
@@ -77,14 +88,20 @@ class QuadStore {
     return p;
   }
 
-  async createQuad() {
+  async sendQuad(xd, xx1, xx2) {
     this._load = "load";
+    this._d = xd;
+    this._x1 = xx1;
+    this._x2 = xx2;
     const quad = this.getOneQuad();
     // console.log("create purchase", purchase);
     try {
-      await http.Quad.create(quad);
+      const { data } = await http.Quad.create(quad);
       runInAction(() => {
-        // console.log("get purs", purchases.data);
+        console.log("get quad", JSON.stringify(data, null, 2));
+        this.fillOneQuad(data.oneQuad);
+        this.setCnt(data.cntAnswer);
+        this._lastAns = data.lastAnswer;
         this._load = "done";
       });
     } catch (err) {
@@ -101,6 +118,8 @@ class QuadStore {
       runInAction(() => {
         console.log("get quad", JSON.stringify(data, null, 2));
         this.fillOneQuad(data.oneQuad);
+        this.setCnt(data.cntAnswer);
+        this._lastAns = data.lastAnswer;
         this._load = "done";
       });
     } catch (err) {

@@ -1,7 +1,11 @@
 import "./App.css";
-import quadStore from "./store/QuadStore";
+import Quad2 from "./components/Quad2";
 import { useEffect } from "react";
+import quadStore from "./store/QuadStore";
+import CntAns from "./components/CntAns";
 import { observer } from "mobx-react-lite";
+import QuadRes from "./components/QuadRes";
+import LastAns from "./components/LastAns";
 
 const App = observer(() => {
   useEffect(() => {
@@ -11,7 +15,12 @@ const App = observer(() => {
   }, []);
 
   return (
-    <div className="App">{`${quadStore.a}x2 ${quadStore.b}x ${quadStore.c}`}</div>
+    <div className="App">
+      <CntAns cnt={quadStore.cnt} />
+      <LastAns cnt={quadStore.lastAns} />
+      <Quad2 />
+      <QuadRes />
+    </div>
   );
 });
 
