@@ -98,7 +98,7 @@ class QuadStore {
     try {
       const { data } = await http.Quad.create(quad);
       runInAction(() => {
-        console.log("get quad", JSON.stringify(data, null, 2));
+        //console.log("get quad", JSON.stringify(data, null, 2));
         this.fillOneQuad(data.oneQuad);
         this.setCnt(data.cntAnswer);
         this._lastAns = data.lastAnswer;
@@ -116,7 +116,7 @@ class QuadStore {
     try {
       const { data } = await http.Quad.fetch();
       runInAction(() => {
-        console.log("get quad", JSON.stringify(data, null, 2));
+        //console.log("get quad", JSON.stringify(data, null, 2));
         this.fillOneQuad(data.oneQuad);
         this.setCnt(data.cntAnswer);
         this._lastAns = data.lastAnswer;
