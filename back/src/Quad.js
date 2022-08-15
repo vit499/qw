@@ -96,6 +96,7 @@ class Quad {
     const r = arrQw.find((p) => p.id === id);
     lastAnswer = 0;
     if (r !== null) {
+      mlog.log(`d=${ad}(${r.d}) x1=${ax1}(${r.x1}) x2=${ax2}(${r.x2})`);
       if (r.d === ad && r.x1 === ax1 && r.x2 === ax2) {
         cntAnswer++;
         lastAnswer = 1;
