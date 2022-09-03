@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
+const path = require("path");
 const quad = require("./Quad.js");
 
 const API_PORT = process.env.API_PORT || 3008;
@@ -29,6 +30,13 @@ app.use("/api/quad", quad.sendQuad);
 //   console.log(req.body);
 //   res.sendFile(__dirname + "/view/ans.html");
 // });
+
+app.get("/log", (req, res) => {
+  //   if (!req.body) return res.sendStatus(400);
+  //   console.log(req.body);
+  const f = path.join(__dirname, "..", "logs", "log.txt");
+  res.sendFile(f);
+});
 
 const start = () => {
   app.listen(API_PORT, () => {

@@ -101,6 +101,14 @@ class Quad {
         cntAnswer++;
         lastAnswer = 1;
         mlog.log("ok");
+      } else if (r.x1 === ax1 && r.x2 === ax2) {
+        cntAnswer++;
+        lastAnswer = 1;
+        mlog.log("ok wo D");
+      } else if (r.x1 === ax2 && r.x2 === ax1) {
+        cntAnswer++;
+        lastAnswer = 1;
+        mlog.log("ok wo D x1->x2");
       }
     }
     mlog.setCntAns(cntAnswer);
