@@ -9,12 +9,14 @@ services:
     container_name: quad_front
     command: serve -s build -l 3003
     restart: unless-stopped
+    ports:
+      - "3003:3003"
     logging:
       options:
         max-size: 10m
     # before run cmd:  docker network create dock-vv-network
     networks:
-      - dock-vv-network
+      - v1-network
 
   quad_api:
     build: ./back
@@ -25,12 +27,14 @@ services:
       - API_PORT=${API_PORT}
     volumes:
       - ./logs:/usr/src/app/logs
+    ports:
+      - "${API_PORT}:${API_PORT}"
     logging:
       options:
         max-size: 10m
     networks:
-      - dock-vv-network
+      - v1-network
 
 networks:
-  dock-vv-network:
+  v1-network:
     external: true
