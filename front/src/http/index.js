@@ -1,7 +1,7 @@
 import axios from "axios";
 
-//const url = process.env.REACT_APP_API_URL || "http://localhost:3014";
-const url = "http://vit496.ru:30014";
+const url = process.env.REACT_APP_API_URL || "http://localhost:3014";
+//const url = "http://vit496.ru:30014";
 const $host = axios.create({
   // baseURL: process.env.REACT_APP_API_URL,
   // baseURL: "http://localhost:3014",
